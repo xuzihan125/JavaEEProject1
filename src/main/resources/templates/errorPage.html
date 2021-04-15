@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+动态error错误页面
+<br />
+<p th:text="'错误类型:'+${type}"></p>
+<p th:text="'错误代码:'+${code}"></p>
+<h1>点击<a th:href="@{/switch}">这里</a>返回主页</h1>
+</body>
+</html>

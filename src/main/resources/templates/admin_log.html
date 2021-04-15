@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>log</title>
+</head>
+<body>
+<h1><a th:href="@{/admin/main}">返回</a></h1>
+<h2><a th:href="@{/admin/log(type='info')}">显示信息日志</a></h2>
+<h3><a th:href="@{/admin/log(type='warn')}">显示警告日志</a></h3>
+<h4><a th:href="@{/admin/log(type='error')}">显示错误日志</a></h4>
+<br>
+<br>
+<p th:text="'类型：'+${type}"></p>
+<table>
+    <thead>
+        <tr>
+            <th>日志列表</th>
+        </tr>
+    </thead>
+    <table>
+        <tr th:each="log:${log}">
+            <td th:text="${log}"></td>
+        </tr>
+    </table>
+</table>
+<p th:text="${log}"></p>
+</body>
+</html>

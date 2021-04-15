@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="application.properties"/>
+    <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- ??????????-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- ????Java??????toString?? -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--??mapper.xml??????-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
+        <!--???????-->
+        <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
+                        connectionURL="${spring.datasource.url}"
+                        userId="${spring.datasource.username}"
+                        password="${spring.datasource.password}">
+        </jdbcConnection>
+        <javaModelGenerator targetPackage="com.javaee.ebook1.mybatis.entity" targetProject="C:\Users\xuzih\Desktop\javaee\HM\1\src\main\java">
+            <!-- enableSubPackages:???schema?????? -->
+            <property name="enableSubPackages" value="false" />
+            <!-- ???????????????? -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- targetProject:xml??????? -->
+        <sqlMapGenerator targetPackage="com.javaee.ebook1.mybatis.mapper" targetProject="C:\Users\xuzih\Desktop\javaee\HM\1\src\main\java">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- targetPackage?mapper??????? -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.javaee.ebook1.mybatis.dao" targetProject="C:\Users\xuzih\Desktop\javaee\HM\1\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- ???? -->
+        <table tableName="books" domainObjectName = "Books"  enableCountByExample="true">
+            <generatedKey column="bid" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="log" domainObjectName = "Log"  enableCountByExample="true">
+        </table>
+        <table tableName="sys_user" domainObjectName = "SysUser"  enableCountByExample="true">
+            <generatedKey column="uid" sqlStatement="MySql" identity="true" />
+        </table>
+        <table tableName="user_role" domainObjectName = "UserRole"  enableCountByExample="true">
+
+        </table>
+    </context>
+</generatorConfiguration>
+
+
