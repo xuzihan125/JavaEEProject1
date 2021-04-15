@@ -58,10 +58,10 @@ public class FileUtil {
         int pages = 0;
         try {
             File imgDirFile = new File(imgDirPath);
-            if (imgDirFile.exists()) {
-                throw new OpException("未定义错误");
+            if (!imgDirFile.exists()) {
+//                throw new OpException("未定义错误");
+                imgDirFile.mkdirs();
             }
-            imgDirFile.mkdirs();
             pdDocument = PDDocument.load(file);
             PDFRenderer pdfRenderer = new PDFRenderer(pdDocument);
             PdfReader pdfReader = new PdfReader(filePath);
