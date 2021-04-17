@@ -1,0 +1,57 @@
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+<body>
+<br>
+<br>
+<!-- Create HTML registration form -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+            <!-- success message -->
+            <h1>注册</h1>
+
+            <div th:if="${error}">
+                <div class="alert alert-danger" th:text="${error}"></div>
+            </div>
+
+            <div th:if="${success}">
+                <div class="alert alert-info">您已成功注册</div>
+            </div>
+
+            <form th:action="@{/regist}" method="post" th:object="${userVO}">
+                <div class="form-group">
+                    <label class="control-label" for="nickname"> 昵称 </label> <input
+                        id="nickname" class="form-control" th:field="*{nickname}" placeholder="请输入昵称"
+                        required autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="emailAddress"> 邮箱 </label> <input
+                        id="emailAddress" class="form-control" th:field="*{emailAddress}" placeholder="请输入邮箱" required
+                        autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="password"> Password </label> <input
+                        id="password" class="form-control" type="password" placeholder="请输入密码"
+                        th:field="*{password}" required autofocus="autofocus" />
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Register</button>
+                    <span>已经注册了? <a th:href="@{/login}">返回登录</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
