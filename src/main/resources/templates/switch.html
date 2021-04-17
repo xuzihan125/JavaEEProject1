@@ -1,11 +1,54 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>switch</title>
+    <link href="cover.css" rel="stylesheet">
 </head>
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
 <body>
-<h1><a th:href="@{/user/booksList}">前往用户页面</a></h1>
-<h1><a th:href="@{/admin/main}">前往管理员页面</a></h1>
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+            <div class="masthead clearfix">
+                <div class="text-center">
+                    <h3 class="masthead-brand">选择界面</h3>
+
+                </div>
+            </div>
+            <div class="text-center">
+                <h1 class="cover-heading">欢迎登陆</h1>
+                <p class="lead">
+                    欢迎登陆。由于您拥有较多权限，故本界面特作为中转界面，为您定位您想前往的位置。
+                </p>
+                <nav>
+                    <u1 class="nav masthead-nav">
+                        <li class="active">
+                            <a th:href="@{/user/booksList}">用户页面</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/main}">管理员页面</a>
+                        </li>
+                    </u1>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>switch</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1><a th:href="@{/user/booksList}">前往用户页面</a></h1>-->
+<!--<h1><a th:href="@{/admin/main}">前往管理员页面</a></h1>-->
+<!--</body>-->
+<!--</html>-->

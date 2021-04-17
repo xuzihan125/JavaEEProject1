@@ -137,7 +137,7 @@ public class FileServiceImpl implements FileService {
             }
         }catch (Exception e){
             BooksExample example = new BooksExample();
-            example.createCriteria().andBidEqualTo(bookVO.getBid());
+            example.createCriteria().andBidEqualTo(books.getBid());
             booksMapper.deleteByExample(example);
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("admin_upload");

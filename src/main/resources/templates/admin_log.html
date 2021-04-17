@@ -4,26 +4,35 @@
     <meta charset="UTF-8">
     <title>log</title>
 </head>
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
 <body>
-<h1><a th:href="@{/admin/main}">返回</a></h1>
-<h2><a th:href="@{/admin/log(type='info')}">显示信息日志</a></h2>
-<h3><a th:href="@{/admin/log(type='warn')}">显示警告日志</a></h3>
-<h4><a th:href="@{/admin/log(type='error')}">显示错误日志</a></h4>
-<br>
-<br>
-<p th:text="'类型：'+${type}"></p>
-<table>
-    <thead>
+    <div class="text-center">
+        <h1>日志显示</h1>
+        <h3><a th:href="@{/admin/main}">返回</a></h3>
+        <h3>
+            <a th:href="@{/admin/log(type='warn')}">显示警告日志</a>
+            <a th:href="@{/admin/log(type='info')}">显示信息日志</a>
+            <a th:href="@{/admin/log(type='error')}">显示错误日志</a>
+        </h3>
+    </div>
+    <br>
+    <br>
+    <p th:text="'类型：'+${type}"></p>
+    <table>
+        <thead>
         <tr>
             <th>日志列表</th>
         </tr>
-    </thead>
-    <table>
-        <tr th:each="log:${log}">
-            <td th:text="${log}"></td>
-        </tr>
+        </thead>
+        <table>
+            <tr th:each="log:${log}">
+                <td th:text="${log}"></td>
+            </tr>
+        </table>
     </table>
-</table>
-<p th:text="${log}"></p>
+
 </body>
 </html>

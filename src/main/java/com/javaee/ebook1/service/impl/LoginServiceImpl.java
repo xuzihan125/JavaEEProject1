@@ -91,6 +91,7 @@ public class LoginServiceImpl implements LoginService  {
         session.removeAttribute(SessionAttribute.ROLE.getCode());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/login");
+        modelAndView.addObject("logout",true);
         return modelAndView;
     }
 
@@ -121,8 +122,8 @@ public class LoginServiceImpl implements LoginService  {
         userRole.setUid(sysUser.getUid());
         userRole.setRid(RoleEnum.NORMAL_READER.getRid());
         userRoleMapper.insert(userRole);
-        modelAndView.setViewName("redirect:/login");
-        modelAndView.addObject("error","注册成功");
+        modelAndView.setViewName("regist");
+        modelAndView.addObject("success",true);
         return modelAndView;
     }
 

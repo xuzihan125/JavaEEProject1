@@ -4,22 +4,38 @@
     <meta charset="UTF-8">
     <title>upload</title>
 </head>
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
 <body>
-<p th:href="@{/admin/main}"></p>
-<p>书籍添加</p>
-<p th:text="${error}"></p>
-    <form method="post" action="/admin/upload" enctype="multipart/form-data">
-        <p><input type="text" th:name="bid" placeholder="请输入书的编号（新书无需输入）"/></p>
-        <p><input type="text" th:name="bookName" placeholder="请输入书名"/></p>
-        <p><input type="text" th:name="author" placeholder="请输入作者"/></p>
-        <p><input type="text" th:name="descr" placeholder="请输入书籍描述"/></p>
-        <p>图片上传</p>
-        <p><input type="file" name="cover" accept="image/*"></p>
-        <p><span th:text="${msg}"></span></p>
-        <p>内容上传</p>
-        <p><input type="file" name="content" accept="application/pdf"></p>
-        <p><span th:text="${msg}"></span></p>
-        <input type="submit" value="提交">
-    </form>
+
+<div class="col-md-offset-4 col-lg-offset-4col-xl-offset-4">
+    <h1>书籍添加</h1>
+    <br/>
+
+        <p th:text="${error}"></p>
+            <form class="form-signin" method="post" action="/admin/upload" enctype="multipart/form-data">
+                <p><input type="text" th:name="bid" placeholder="请输入书的编号（新书无需输入）"/></p>
+                <br/>
+                <p><input type="text" th:name="bookName" placeholder="请输入书名"/></p>
+                <br/>
+                <p><input type="text" th:name="author" placeholder="请输入作者"/></p>
+                <br/>
+                <p><input type="text" th:name="descr" placeholder="请输入书籍描述"/></p>
+                <br/>
+                <p>图片上传</p>
+                <p><input type="file" name="cover" accept="image/*"></p>
+                <p><span th:text="${msg}"></span></p>
+                <br/>
+                <p>内容上传</p>
+                <p><input type="file" name="content" accept="application/pdf"></p>
+                <p><span th:text="${msg}"></span></p>
+                <input type="submit" value="提交">
+            </form>
+        <br/>
+        <br/>
+        <p><a th:href="@{/admin/main}">返回</a></p>
+    </div>
 </body>
 </html>

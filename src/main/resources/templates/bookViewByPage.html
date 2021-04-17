@@ -4,19 +4,27 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
 <body>
-    <h1><a th:href="@{/user/booksList}">返回主页</a></h1>
+<body>
+<div class="text-center">
+    <h3><a th:href="@{/user/booksList}">返回主页</a></h3>
     <br />
-    <h2>
-        <a th:if="${hasPrev}" th:href="@{/user/bookView(bid=${bid},page=(${page}-1))}">
-                上一页
-        </a>
-    </h2>
     <h3>
+        <a th:if="${hasPrev}" th:href="@{/user/bookView(bid=${bid},page=(${page}-1))}">
+            上一页
+        </a>
         <a th:if="${hasNext}" th:href="@{/user/bookView(bid=${bid},page=(${page}+1))}">
-                下一页
+            下一页
         </a>
     </h3>
+</div>
+    <div class="center-block">
+        <img th:src="@{/image/content/{image}(image=${image})}"/>
+    </div>
 </body>
-<img th:src="@{/image/content/{image}(image=${image})}"/>
+
 </html>

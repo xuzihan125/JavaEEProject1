@@ -1,34 +1,58 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <title>登录</title>
-    <link rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
+    <title>Login</title>
 </head>
-<body class="text-center">
-    <form class="form-signin" action="booksList.html" th:action="@{/login}" method="post">
-        <div>
-            <!--/*@thymesVar id="error" type=""*/-->
-            <span id="basic-addon0">&nbsp;</span>
-            <span style="font-size: 12px;color: #ff0000" th:text="${error}" aria-describedby="basic-addon0"></span>
-            <br />
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
+<body>
+<br>
+<br>
+<div class = "container">
+    <div class = "row">
+        <div class = "col-md-6 col-md-offset-3">
+
+            <h1> 登录界面 </h1>
+            <form th:action="@{/login}" method="post">
+
+                <!-- error message -->
+                <div th:if="${error}">
+                    <div class="alert alert-danger" th:text="${error}"></div>
+                </div>
+
+                <!-- logout message -->
+                <div th:if="${logout}">
+                    <div class="alert alert-info">您已登出</div>
+                </div>
+
+                <div class = "form-group">
+                    <label for ="email_address"> 邮箱 </label> :
+                    <input type="text" class = "form-control" id ="email_address" name = "emailAddress"
+                           placeholder="请输入邮箱" autofocus="autofocus">
+                </div>
+
+                <div class="form-group">
+                    <label for="password"> 密码 </label>: <input type="password"
+                                                                   id="password" name="password" class="form-control"
+                                                                   placeholder="请输入密码" />
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <input type="submit" name="login-submit" id="login-submit"
+                                   class="form-control btn btn-primary" value="登录" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="form-group">
+						<span>新用户? <a href="/" th:href="@{/regist}">点击注册</a></span>
+            </div>
         </div>
-        <div>
-            <span id="basic-addon1">邮箱</span>
-            <input id="email_address" name="emailAddress" type="email" placeholder="请输入邮箱" aria-describedby="basic-addon1" />
-        </div>
-        <br />
-        <div>
-            <span id="basic-addon2">密码</span>
-            <input id="password" name="password" type="password" placeholder="请输入密码" aria-describedby="basic-addon2" />
-        </div>
-        <br />
-        <div>
-            <button type="submit" style="width:190px;">登 录</button>
-        </div>
-        <div class="form-group">
-            <span><a th:href="@{/regist}">注册</a></span>
-        </div>
-    </form>
+    </div>
+</div>
 </body>
 </html>

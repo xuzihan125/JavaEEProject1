@@ -4,58 +4,80 @@
     <meta charset="UTF-8">
     <title>BookList</title>
 </head>
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
 <body>
-<h1>点击<a th:href="@{/logout}">这里</a>退出登录</h1>
-</body>
 <body>
-<form class="form-signin" action="booksList.html" th:action="@{/user/booksList}" method="post">
-    <div>
-        <span id="basic-addon1">书名</span>
-        <input id="name" name="name" type="text" th:value="${name}==null?'':${name}" aria-describedby="basic-addon1" />
-    </div>
-    <br />
-    <div>
-        <span id="basic-addon2">作者</span>
-        <input id="author" name="author" type="text" th:value="${author}==null?'':${author}" aria-describedby="basic-addon2" />
-    </div>
-    <div>
-        <span id="basic-addon3">页数</span>
-        <input id="page_no" name="pageNo" type="number" th:value="${pageNo}"  aria-describedby="basic-addon1" />
-    </div>
-    <br />
-    <div>
-        <span id="basic-addon4">显示数量</span>
-        <input id="page_size" name="pageSize" type="number" th:value="${pageSize}" aria-describedby="basic-addon1" />
-    </div>
-    <br />
-    <button type="submit" style="width:190px;">查 询</button>
-    <br />
-</form>
-</body>
-<body>
-<div>
-        <table id="sample-table-1" class="table table-striped" border="1">
-            <thead>
-                <tr>
-<!--                    <th class="center"><label> <input-->
-<!--                            type="checkbox" id="checkAll"/></label></th>-->
-                    <th>cover</th>
-                    <th>Name</th>
-                    <th>author</th>
-                    <th>description</th>
-                </tr>
-            </thead>
-            <tbody>
-            <tr th:each="book : ${books}">
-                <td><a th:href="@{'/user/bookView?bid='+${book.bid}+'&page=1'}"><img th:src="@{/image/cover/{bookCover}(bookCover=${book.bookCover})}"  height="200px" width="250px"/>
-                    </a></td>
-                <td><a th:utext="${book.bookName}" th:href="@{'/user/bookView?bid='+${book.bid}+'&page=1'}"></a></td>
-<!--                <td onclick=@{'book/'+${book.file}} th:utext="${book.bookName}"></td>-->
-                <td th:utext="${book.author}"></td>
-                <td th:utext="${book.descr}"></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h1>图书列表</h1>
+                <div>
+                    <h3>点击<a th:href="@{/logout}">这里</a>退出登录</h3>
+                    <h3>点击<a th:href="@{/switch}">这里</a>返回上层</h3>
+                </div>
+                <br/><br/>
+                <div>
+                    <div>
+                        <table id="sample-table-1" class="table table-striped" border="1">
+                            <thead>
+                            <tr>
+                                <!--                    <th class="center"><label> <input-->
+                                <!--                            type="checkbox" id="checkAll"/></label></th>-->
+                                <th>cover</th>
+                                <th>Name</th>
+                                <th>author</th>
+                                <th>description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="book : ${books}">
+                                <td><a th:href="@{'/user/bookView?bid='+${book.bid}+'&page=1'}"><img th:src="@{/image/cover/{bookCover}(bookCover=${book.bookCover})}"  height="200px" width="250px"/>
+                                </a></td>
+                                <td><a th:utext="${book.bookName}" th:href="@{'/user/bookView?bid='+${book.bid}+'&page=1'}"></a></td>
+                                <!--                <td onclick=@{'book/'+${book.file}} th:utext="${book.bookName}"></td>-->
+                                <td th:utext="${book.author}"></td>
+                                <td th:utext="${book.descr}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/><br/>
+                    <form class="form-signin" action="booksList.html" th:action="@{/user/booksList}" method="post">
+                        <div>
+                            <span id="basic-addon1">书名</span>
+                            <input id="name" name="name" type="text" th:value="${name}==null?'':${name}" aria-describedby="basic-addon1" />
+                        </div>
+                        <br />
+                        <div>
+                            <span id="basic-addon2">作者</span>
+                            <input id="author" name="author" type="text" th:value="${author}==null?'':${author}" aria-describedby="basic-addon2" />
+                        </div>
+                        <div>
+                            <span id="basic-addon3">页数</span>
+                            <select id="page_no" name="pageNo">
+                                <option th:each="page_no: ${#numbers.sequence(1,totalPage)}" th:value="${page_no}" th:text="${page_no}" ></option>
+                            </select>
+<!--                            <input  type="number" th:value="${pageNo}"  aria-describedby="basic-addon1" />-->
+                        </div>
+                        <br />
+                        <div>
+                            <span id="basic-addon4">显示数量</span>
+                            <select id="page_size" name="pageSize">
+                                <option value="10">10</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <br />
+                        <button type="submit" style="width:190px;">查 询</button>
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

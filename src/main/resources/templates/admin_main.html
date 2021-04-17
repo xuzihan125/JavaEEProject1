@@ -4,8 +4,42 @@
     <meta charset="UTF-8">
     <title>main</title>
 </head>
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
 <body>
-<h1><a th:href="@{/admin/log(type='info')}">查看日志</a></h1>
-<h1><a th:href="@{/admin/upload}">上传书籍</a></h1>
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+            <div class="masthead clearfix">
+                <div class="text-center">
+                    <h3 class="masthead-brand">管理员界面</h3>
+                </div>
+            </div>
+            <div class="text-center">
+                <h1 class="cover-heading">欢迎管理员</h1>
+                <br/>
+                <br/>
+                <p class="lead">
+                    请选择想要执行的操作
+                </p>
+                <nav>
+                    <u1 class="nav masthead-nav">
+                        <li class="active">
+                            <a th:href="@{/admin/log(type='info')}">查看日志</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/upload}">上传书籍</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/switch}">返回</a>
+                        </li>
+                    </u1>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

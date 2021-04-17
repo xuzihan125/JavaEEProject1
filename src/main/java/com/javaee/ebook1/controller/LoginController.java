@@ -33,6 +33,7 @@ public class LoginController {
     @GetMapping(value = "/login")
     public String Login(Model model){
         logger.info("进入登录界面");
+        model.addAttribute("logout",false);
         return "login";
     }
 
@@ -51,12 +52,21 @@ public class LoginController {
     @GetMapping(value = "/regist")
     public String regist(Model model){
         logger.info("进入注册界面");
+        model.addAttribute("userVO",new UserVO());
         return "regist";
     }
 
     @PostMapping(value = "/regist")
-    public ModelAndView regist(@Valid UserVO user){
+    public ModelAndView regist(@Valid UserVO user,BindingResult userCheckResult){
         logger.info("尝试注册");
+        if(userCheckResult.hasErrors()){
+            ModelAndView modelAndView = new ModelAndView();
+            logger.info("注册参数错误");
+            modelAndView.setViewName("regist");
+            modelAndView.addObject("error",userCheckResult.getFieldError().getDefaultMessage());
+            modelAndView.addObject("userVO",user);
+            return modelAndView;
+        }
         return loginService.regist(user);
     }
 
