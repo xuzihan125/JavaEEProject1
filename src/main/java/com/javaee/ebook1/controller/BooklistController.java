@@ -22,12 +22,12 @@ public class BooklistController {
     private BookListService bookListService;
 
     @GetMapping(value = "/user/booksList")
-    public ModelAndView GetBookList(ModelAndView modelAndView) throws Exception{
+    public ModelAndView GetBookList() throws Exception{
         return bookListService.getBookList();
     }
 
     @RequestMapping(value = "/user/booksList")
-    public ModelAndView GetBookList(ModelAndView modelAndView, @Valid BookListVO bookListVO, BindingResult userCheckResult) throws Exception{
+    public ModelAndView GetBookList(@Valid BookListVO bookListVO, BindingResult userCheckResult) throws Exception{
         if(userCheckResult.hasErrors()){
             throw new OpException(userCheckResult.getFieldError().getDefaultMessage(),ResultCode.INVALID_INPUT.getCode());
         }
@@ -35,7 +35,7 @@ public class BooklistController {
     }
 
     @RequestMapping(value = "/test")
-    public String ErrorTest(Model model) throws OpException{
+    public String ErrorTest() throws OpException{
         return "test";
     }
 }
