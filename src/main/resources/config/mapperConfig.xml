@@ -37,17 +37,18 @@
         </javaClientGenerator>
 
         <!-- ???? -->
-        <table tableName="books" domainObjectName = "Books"  enableCountByExample="true">
-            <generatedKey column="bid" sqlStatement="MySql" identity="true" />
+        <table tableName="role" domainObjectName = "Role"  enableCountByExample="true">
         </table>
-        <table tableName="log" domainObjectName = "Log"  enableCountByExample="true">
-        </table>
-        <table tableName="sys_user" domainObjectName = "SysUser"  enableCountByExample="true">
-            <generatedKey column="uid" sqlStatement="MySql" identity="true" />
-        </table>
-        <table tableName="user_role" domainObjectName = "UserRole"  enableCountByExample="true">
-
-        </table>
+<!--        <table tableName="books" domainObjectName = "Books"  enableCountByExample="true">-->
+<!--            <generatedKey column="bid" sqlStatement="MySql" identity="true" />-->
+<!--        </table>-->
+<!--        <table tableName="log" domainObjectName = "Log"  enableCountByExample="true">-->
+<!--        </table>-->
+<!--        <table tableName="sys_user" domainObjectName = "SysUser"  enableCountByExample="true">-->
+<!--            <generatedKey column="uid" sqlStatement="MySql" identity="true" />-->
+<!--        </table>-->
+<!--        <table tableName="user_role" domainObjectName = "UserRole"  enableCountByExample="true">-->
+<!--        </table>-->
     </context>
 </generatorConfiguration>
 

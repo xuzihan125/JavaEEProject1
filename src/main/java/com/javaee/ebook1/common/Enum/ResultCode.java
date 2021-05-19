@@ -2,6 +2,8 @@ package com.javaee.ebook1.common.Enum;
 
 public enum ResultCode {
     SUCCESS("000000","返回成功"),
+    TOKENERROR("400001","token错误"),
+    EMAILNOTEXIST("400002","账号不存在"),
     INVALID_INPUT("100001","输入不满足约束条件"),
     NOT_EXIST_BOOK("200001","满足条件的书不存在"),
     INVALID_AUTHOR("300001","权限错误"),

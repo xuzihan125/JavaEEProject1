@@ -2,6 +2,8 @@ package com.javaee.ebook1.controller;
 
 import com.javaee.ebook1.mybatis.vo.UserVO;
 import com.javaee.ebook1.service.LoginService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import javax.validation.Valid;
  * @data 2021/3/30
  **/
 @Controller
+@Api(value = "登录类", tags = "用户操作接口")
 public class LoginController {
     @Resource
     private LoginService loginService;
@@ -39,6 +42,7 @@ public class LoginController {
     }
 
     @PostMapping(value = "/login")
+    @ApiOperation(value="用户登录")
     public ModelAndView Login(ModelAndView modelAndView, @Valid UserVO user, BindingResult userCheckResult, HttpSession session){
         logger.info("尝试登录");
         if(userCheckResult.hasErrors()){

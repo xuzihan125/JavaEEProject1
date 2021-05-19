@@ -4,6 +4,8 @@ import com.javaee.ebook1.common.exception.OpException;
 import com.javaee.ebook1.mybatis.vo.BookVO;
 import com.javaee.ebook1.mybatis.vo.UserVO;
 import com.javaee.ebook1.service.FileService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,13 +23,14 @@ import javax.validation.Valid;
  * @description: TODO
  * @data 2021/4/7
  **/
+@Api(value = "文件上传")
 @Controller
 public class FileController {
 
     @Resource
     private FileService fileService;
 
-
+    @ApiOperation(value = "获得书籍文件")
     @RequestMapping(value = "/user/books/{file}",method = RequestMethod.GET)
     public void prePDF(@PathVariable String file, HttpServletResponse response) throws Exception{
         fileService.getPDF(file,response);

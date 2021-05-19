@@ -1,7 +1,10 @@
 package com.javaee.ebook1.common.Enum;
 
 public enum SessionAttribute {
+    USERNAME("username","user's username"),
+    PASSWORD("password","user's password"),
     ROLE("role","user's role");
+
     private String code;
     private String desc;
 

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @description: 拦截器配置（已停用）
  * @data 2021/4/2
  **/
-@Configuration
+
 public class WebIntercepterConfig implements WebMvcConfigurer {
     @Autowired
     UserIntercepter userIntercepter;

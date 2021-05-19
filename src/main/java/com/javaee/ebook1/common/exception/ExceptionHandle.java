@@ -38,27 +38,28 @@ public class ExceptionHandle {
         //model.addAttribute("author", "嘟嘟MD");
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(ConstraintDeclarationException.class)
+    public Object handleConstraintDeclarationException(Exception e, HttpServletRequest req){
+        logger.error(e.getMessage());
+        e.printStackTrace();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("errorPage");
+        //业务异常
+        modelAndView.addObject("type","参数错误");
+        modelAndView.addObject("code", ((ConstraintDeclarationException)e).getMessage());
+        return modelAndView;
+    }
+
+    @ExceptionHandler(RuntimeException.class)
     public Object handleException(Exception e, HttpServletRequest req) {
         logger.error(e.getMessage());
         e.printStackTrace();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("errorPage");
         //业务异常
-        if (e instanceof OpException) {
-            modelAndView.addObject("type", "程序错误");
-            modelAndView.addObject("code", ((OpException) e).getErrorCode());
-        }
-        else if(e instanceof ConstraintDeclarationException){
-            modelAndView.addObject("type","参数错误");
-            modelAndView.addObject("code", ((ConstraintDeclarationException)e).getMessage());
-        }
-        else {//系统异常
-            modelAndView.addObject("type", "系统错误");
-            modelAndView.addObject("code", e.getMessage());
-        }
+        modelAndView.addObject("type", "程序错误");
+        modelAndView.addObject("code", ((OpException) e).getErrorCode());
         return modelAndView;
-
     }
 
 }

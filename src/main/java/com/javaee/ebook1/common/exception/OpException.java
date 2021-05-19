@@ -6,7 +6,7 @@ package com.javaee.ebook1.common.exception;
  * @description: TODO
  * @data 2021/3/30
  **/
-public class OpException extends Exception{
+public class OpException extends RuntimeException{
     private String errorCode;
 
     public OpException(String msg){
