@@ -8,10 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public interface FileService {
-    void getPDF(String file, HttpServletResponse response) throws OpException;
+    String getPDF(String file, HttpServletResponse response) ;
 
-    ModelAndView getLog(String type)throws OpException;
-
-    ModelAndView addBook(BookVO bookVO, HttpServletRequest request) throws OpException;
+    String addBook(BookVO bookVO, HttpServletRequest request);
 
 }

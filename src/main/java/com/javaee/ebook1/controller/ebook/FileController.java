@@ -1,5 +1,7 @@
-package com.javaee.ebook1.controller;
+package com.javaee.ebook1.controller.ebook;
 
+import com.javaee.ebook1.common.Enum.ResultCode;
+import com.javaee.ebook1.common.JsonMessage;
 import com.javaee.ebook1.common.exception.OpException;
 import com.javaee.ebook1.mybatis.vo.BookVO;
 import com.javaee.ebook1.mybatis.vo.UserVO;
@@ -30,10 +32,10 @@ public class FileController {
     @Resource
     private FileService fileService;
 
-    @ApiOperation(value = "获得书籍文件")
+    @ApiOperation(value="方法描述：获得图书单页，请求方法：GET，参数：file，返回值：JsonMessage<String>")
     @RequestMapping(value = "/user/books/{file}",method = RequestMethod.GET)
-    public void prePDF(@PathVariable String file, HttpServletResponse response) throws Exception{
-        fileService.getPDF(file,response);
+    public JsonMessage<String> prePDF(@PathVariable String file, HttpServletResponse response) throws Exception{
+        return new JsonMessage<String>(fileService.getPDF(file,response));
     }
 
     @GetMapping(value = "/admin/upload")
@@ -44,14 +46,11 @@ public class FileController {
     }
 
     @PostMapping(value = "/admin/upload")
-    public ModelAndView addBook(@Valid BookVO bookVO, HttpServletRequest request, BindingResult bindingResult) throws OpException {
+    public JsonMessage<String> addBook(@Valid BookVO bookVO, HttpServletRequest request, BindingResult bindingResult) throws OpException {
         if(bindingResult.hasErrors()){
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("admin_upload");
-            modelAndView.addObject("error","上传失败");
-            return modelAndView;
+            throw new OpException(ResultCode.INVALID_INPUT.getDesc(),ResultCode.INVALID_INPUT.getCode());
         }
-        return fileService.addBook(bookVO,request);
+        return new JsonMessage<String>(fileService.addBook(bookVO,request));
     }
 
 }

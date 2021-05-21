@@ -109,12 +109,13 @@ public class JWTUtil {
      * @version 1.0
      */
     public String generateJWT(UserDTO userDTO){
-        return Jwts.builder()
+        String tempo = Jwts.builder()
                 .setClaims(getClaim(userDTO))
                 .setIssuedAt(new Date())
                 .setExpiration(getExpiration())
-                .signWith(SignatureAlgorithm.ES256,secret)
+                .signWith(SignatureAlgorithm.HS512,secret)
                 .compact();
+        return tempo;
     }
 
     public String generateJwtToken(Authentication authentication) {
@@ -125,7 +126,7 @@ public class JWTUtil {
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + expiration*1000))
-                .signWith(SignatureAlgorithm.ES256, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
@@ -138,10 +139,7 @@ public class JWTUtil {
      */
     public boolean validJWT(String token) throws OpException {
         Claims claims = getClaimsFromToken(token);
-        if(claims == null){
-            throw new OpException(ResultCode.TOKENERROR.getDesc(),ResultCode.TOKENERROR.getCode());
-        }
-        return true;
+        return claims != null;
     }
 
     /**
@@ -157,12 +155,10 @@ public class JWTUtil {
         }
         String username = (String)claims.get(SessionAttribute.USERNAME.getCode());
         String password = (String)claims.get(SessionAttribute.PASSWORD.getCode());
-        Object rolesObject = claims.get(SessionAttribute.ROLE.getCode());
+        List rolesObject = claims.get(SessionAttribute.ROLE.getCode(),List.class);
         List<GrantedAuthority> roles = new ArrayList<>();
-        if(rolesObject instanceof ArrayList<?>){
-            for(Object obj:(List<?>)rolesObject){
-                roles.add(new SimpleGrantedAuthority(((RoleDto)obj).getRole()));
-            }
+        for(Object obj: rolesObject){
+            roles.add(new SimpleGrantedAuthority((String)((LinkedHashMap)obj).get("role")));
         }
         return new User(username,password,roles);
 

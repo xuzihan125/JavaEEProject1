@@ -1,5 +1,6 @@
 package com.javaee.ebook1.service.impl;
 
+import com.javaee.ebook1.common.Enum.ResultCode;
 import com.javaee.ebook1.common.exception.OpException;
 import com.javaee.ebook1.common.util.FileUtil;
 import com.javaee.ebook1.mybatis.dao.BooksMapper;
@@ -42,9 +43,6 @@ public class FileServiceImpl implements FileService {
     @Value("${relativePath.content}")
     private String relativeContentPath;
 
-    @Value("${relativePath.log}")
-    private String relativeLogPath;
-
     @Resource
     private BooksMapper booksMapper;
 
@@ -58,7 +56,7 @@ public class FileServiceImpl implements FileService {
      * @version 1.0
      */
     @Override
-    public void getPDF(String file, HttpServletResponse response) throws OpException {
+    public String getPDF(String file, HttpServletResponse response) throws OpException {
         response.reset();
         response.setContentType("application/pdf");
         try{
@@ -72,32 +70,10 @@ public class FileServiceImpl implements FileService {
         }catch(Exception e){
             throw new OpException(e.getMessage(),"000111");
         }
+        return "文件上传成功";
     }
 
-    @Override
-    public ModelAndView getLog(String type) throws OpException{
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin_log");
-        modelAndView.addObject("type",type);
-        try{
-            String file_name = type+".log";
-            File logFile = new File(absolutePath+relativeLogPath+file_name);
-            BufferedReader fileReadBuffer = new BufferedReader(new FileReader(logFile));
-            List<String> content = new ArrayList<>();
-            String read = fileReadBuffer.readLine();
-            while(read!=null){
-                content.add(read+"\n");
-                read = fileReadBuffer.readLine();
-            }
-            fileReadBuffer.close();
-            modelAndView.addObject("log",content);
-        }catch(Exception e){
-            throw new OpException(e.getMessage(),"000111");
-        }
-        return modelAndView;
-    }
-
-    public ModelAndView addBook(BookVO bookVO, HttpServletRequest request) throws OpException{
+    public String addBook(BookVO bookVO, HttpServletRequest request) throws OpException{
         Books books = new Books();
         if(bookVO.getBid()==null){
             books.setAuthor(bookVO.getAuthor());
@@ -139,12 +115,8 @@ public class FileServiceImpl implements FileService {
             BooksExample example = new BooksExample();
             example.createCriteria().andBidEqualTo(books.getBid());
             booksMapper.deleteByExample(example);
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("admin_upload");
-            modelAndView.addObject("error","上传失败");
-            return modelAndView;
+            throw new OpException(ResultCode.FILE_OPERATION_FAIL.getDesc(),ResultCode.FILE_OPERATION_FAIL.getCode());
         }
-
         int page = fileUtil.generateImage(absolutePath+relativeBookPath+books.getFile(),absolutePath+relativeContentPath+books.getBid());
         books.setAuthor(bookVO.getAuthor());
         books.setBookName(bookVO.getBookName());
@@ -154,10 +126,7 @@ public class FileServiceImpl implements FileService {
         BooksExample example = new BooksExample();
         example.createCriteria().andBidEqualTo(books.getBid());
         booksMapper.updateByExample(books,example);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin_upload");
-        modelAndView.addObject("error","上传成功");
-        return modelAndView;
+        return "上传成功";
     }
 
 }

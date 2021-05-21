@@ -1,5 +1,7 @@
 package com.javaee.ebook1.common.exception;
 
+import com.javaee.ebook1.common.Enum.ResultCode;
+import com.javaee.ebook1.common.JsonMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -38,28 +40,30 @@ public class ExceptionHandle {
         //model.addAttribute("author", "嘟嘟MD");
     }
 
-    @ExceptionHandler(ConstraintDeclarationException.class)
+    @ExceptionHandler(value = ConstraintDeclarationException.class)
     public Object handleConstraintDeclarationException(Exception e, HttpServletRequest req){
         logger.error(e.getMessage());
         e.printStackTrace();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("errorPage");
-        //业务异常
-        modelAndView.addObject("type","参数错误");
-        modelAndView.addObject("code", ((ConstraintDeclarationException)e).getMessage());
-        return modelAndView;
+        return new JsonMessage<String>(e.getMessage(),ResultCode.INVALID_ATTRIBUTE.getCode(),ResultCode.INVALID_ATTRIBUTE.getDesc());
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("errorPage");
+//        //业务异常
+//        modelAndView.addObject("type","参数错误");
+//        modelAndView.addObject("code", ();
+//        return modelAndView;
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public Object handleException(Exception e, HttpServletRequest req) {
+    @ExceptionHandler(value = OpException.class)
+    public Object handleException(OpException e, HttpServletRequest req) {
         logger.error(e.getMessage());
         e.printStackTrace();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("errorPage");
-        //业务异常
-        modelAndView.addObject("type", "程序错误");
-        modelAndView.addObject("code", ((OpException) e).getErrorCode());
-        return modelAndView;
+        return new JsonMessage<String>("系统错误",e.getErrorCode(),e.getMessage());
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("errorPage");
+//        //业务异常
+//        modelAndView.addObject("type", "程序错误");
+//        modelAndView.addObject("code", ((OpException) e).getErrorCode());
+//        return modelAndView;
     }
 
 }

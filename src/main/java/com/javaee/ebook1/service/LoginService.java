@@ -1,5 +1,7 @@
 package com.javaee.ebook1.service;
 
+import com.javaee.ebook1.mybatis.vo.LoginVO;
+import com.javaee.ebook1.mybatis.vo.RegistVO;
 import com.javaee.ebook1.mybatis.vo.UserVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,10 +14,10 @@ public interface LoginService {// extends UserDetailsService {
 //    boolean checkLogin(String mailbox, String password);
 
     @Validated
-    ModelAndView checkLogin(@Valid UserVO userVO, HttpSession session);
+    LoginVO checkLogin(@Valid UserVO userVO);
 
     @Validated
-    ModelAndView regist(@Valid UserVO userVO);
+    RegistVO regist(@Valid UserVO userVO);
 
     ModelAndView logout(HttpSession session);
 }

@@ -1,4 +1,4 @@
-package com.javaee.ebook1.controller;
+package com.javaee.ebook1.controller.View;
 
 import com.javaee.ebook1.common.exception.OpException;
 import org.springframework.stereotype.Controller;

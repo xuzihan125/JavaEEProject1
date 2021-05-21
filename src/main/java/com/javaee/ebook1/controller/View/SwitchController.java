@@ -1,29 +1,29 @@
-package com.javaee.ebook1.controller;
+package com.javaee.ebook1.controller.View;
 
 import com.javaee.ebook1.common.exception.OpException;
 import com.javaee.ebook1.service.BookViewService;
+import com.javaee.ebook1.service.SwitchService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author xuzihan
  * @version 1.0
  * @description: TODO
- * @data 2021/4/7
+ * @data 2021/4/14
  **/
 @Controller
-public class BookViewController {
-
+public class SwitchController {
     @Resource
-    private BookViewService bookViewService;
+    private SwitchService switchService;
 
-    @RequestMapping(value = "/user/bookView")
-    public ModelAndView getBookView(@RequestParam String bid, @RequestParam int page) throws OpException {
-        return bookViewService.getBookView(bid,page);
+    @RequestMapping(value = "/switch")
+    public ModelAndView getBookView(HttpServletRequest request) throws OpException {
+        return switchService.switchView(request);
     }
 }

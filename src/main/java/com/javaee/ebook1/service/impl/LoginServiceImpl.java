@@ -3,13 +3,18 @@ package com.javaee.ebook1.service.impl;
 
 import com.javaee.ebook1.common.Enum.RoleEnum;
 import com.javaee.ebook1.common.Enum.SessionAttribute;
+import com.javaee.ebook1.common.security.JWT.JWTUtil;
+import com.javaee.ebook1.common.util.ListTool;
 import com.javaee.ebook1.mybatis.dao.SysUserMapper;
 import com.javaee.ebook1.mybatis.dao.UserRoleMapper;
 import com.javaee.ebook1.mybatis.daoExt.RoleMapperExt;
 import com.javaee.ebook1.mybatis.dto.RoleDto;
+import com.javaee.ebook1.mybatis.dto.UserDTO;
 import com.javaee.ebook1.mybatis.entity.SysUser;
 import com.javaee.ebook1.mybatis.entity.SysUserExample;
 import com.javaee.ebook1.mybatis.entity.UserRole;
+import com.javaee.ebook1.mybatis.vo.LoginVO;
+import com.javaee.ebook1.mybatis.vo.RegistVO;
 import com.javaee.ebook1.mybatis.vo.UserVO;
 import com.javaee.ebook1.service.BookListService;
 import com.javaee.ebook1.service.LoginService;
@@ -49,6 +54,9 @@ public class LoginServiceImpl implements LoginService  {
     @Resource
     private RoleMapperExt roleMapperExt;
 
+    @Resource
+    private JWTUtil jwtUtil;
+
 //    @Override
 //    public boolean checkLogin(String mailbox, String password) {
 //        if(mailbox==null || mailbox.equals("") || password==null || mailbox.equals("")){
@@ -61,30 +69,34 @@ public class LoginServiceImpl implements LoginService  {
 //    }
 
     @Override
-    public ModelAndView checkLogin(@Valid UserVO userVO, HttpSession session){
+    public LoginVO checkLogin(@Valid UserVO userVO){
         //返回变量
-        ModelAndView modelAndView = new ModelAndView();
+        LoginVO loginVO = new LoginVO();
         //获得参数
         String mail = userVO.getEmailAddress();
         String password = userVO.getPassword();
+        //校验信息
         SysUserExample example = new SysUserExample();
         example.createCriteria().andMailboxEqualTo(mail);
         List<SysUser> result = sysUserMapper.selectByExample(example);
         SysUser user = result.stream().findFirst().orElse(null);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(user ==null || !passwordEncoder.matches(password,user.getPassword())){
-            modelAndView.setViewName("login");
-            modelAndView.addObject("error","登陆失败");
-            return modelAndView;
+            loginVO.setStatus(false);;
+            return loginVO;
         }
-
-        session.setAttribute("nickname",user.getNickname());
+        //构造返回值
+        loginVO.setStatus(true);
+        loginVO.setEmailAddress(mail);
+        loginVO.setNickname(user.getNickname());
+        //创建token
+        UserDTO userDTO  = new UserDTO();
+        userDTO.setPassword(password);
+        userDTO.setUsername(mail);
         List<RoleDto> roleDtos = roleMapperExt.getRoleByUid(user.getUid());
-        List<String> roles = new ArrayList<>();
-        roleDtos.stream().forEach(roleDto -> roles.add(roleDto.getRole()));
-        session.setAttribute(SessionAttribute.ROLE.getCode(),roles);
-        modelAndView.setViewName("redirect:/switch");
-        return modelAndView;
+        userDTO.setRoles(roleDtos);
+        loginVO.setToken(jwtUtil.generateJWT(userDTO));
+        return loginVO;
     }
 
     public ModelAndView logout(HttpSession session){
@@ -96,9 +108,9 @@ public class LoginServiceImpl implements LoginService  {
     }
 
     @Override
-    public ModelAndView regist(@Valid UserVO userVO){
-        //返回变量
-        ModelAndView modelAndView = new ModelAndView();
+    public RegistVO regist(@Valid UserVO userVO){
+        //创建返回参数
+        RegistVO registVO = new RegistVO();
         //获得参数
         String mail = userVO.getEmailAddress();
         SysUserExample example = new SysUserExample();
@@ -106,10 +118,10 @@ public class LoginServiceImpl implements LoginService  {
         List<SysUser> result = sysUserMapper.selectByExample(example);
         SysUser user = result.stream().findFirst().orElse(null);
         if(user !=null){
-            modelAndView.setViewName("regist");
-            modelAndView.addObject("error","账号已存在");
-            return modelAndView;
+            registVO.setStatus(false);
+            registVO.setContent("邮箱已存在");
         }
+        //创建账号
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String password = userVO.getPassword();
         String nickname = userVO.getNickname();
@@ -117,14 +129,16 @@ public class LoginServiceImpl implements LoginService  {
         sysUser.setMailbox(mail);
         sysUser.setNickname(nickname);
         sysUser.setPassword(passwordEncoder.encode(password));
+        //授予基础权限
         int uid = sysUserMapper.insert(sysUser);
         UserRole userRole = new UserRole();
         userRole.setUid(sysUser.getUid());
         userRole.setRid(RoleEnum.NORMAL_READER.getRid());
         userRoleMapper.insert(userRole);
-        modelAndView.setViewName("regist");
-        modelAndView.addObject("success",true);
-        return modelAndView;
+        //返回结果
+        registVO.setStatus(true);
+        registVO.setContent("注册成功");
+        return registVO;
     }
 
 //    @Override

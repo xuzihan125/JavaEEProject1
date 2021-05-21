@@ -6,6 +6,7 @@ import com.javaee.ebook1.common.util.FileUtil;
 import com.javaee.ebook1.mybatis.dao.BooksMapper;
 import com.javaee.ebook1.mybatis.entity.Books;
 import com.javaee.ebook1.mybatis.entity.BooksExample;
+import com.javaee.ebook1.mybatis.vo.BookViewVO;
 import com.javaee.ebook1.service.BookViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,28 +37,29 @@ public class BookViewServiceImpl implements BookViewService {
      * @version 1.0
      */
     @Override
-    public ModelAndView getBookView(String bid, Integer page) throws OpException{
+    public BookViewVO getBookView(String bid, Integer page){
+        //获得书籍参数
         BooksExample example = new BooksExample();
         example.createCriteria().andBidEqualTo(Integer.valueOf(bid));
         List<Books> result = booksMapper.selectByExample(example);
         Books book = result.stream().findFirst().orElse(null);
-        if(book == null){
+        if(book == null ){
             throw new OpException(ResultCode.NOT_EXIST_BOOK.getDesc(),ResultCode.NOT_EXIST_BOOK.getCode());
         }
+        if(book.getPage()>page){
+            throw new OpException(ResultCode.INVALID_INPUT.getDesc(),ResultCode.INVALID_INPUT.getDesc());
+        }
+        //检查文件是否存在
         String folder = fileUtil.absolutePath+"image/content/"+book.getFolder();
         File folderFile = new File(folder);
         if(!folderFile.exists()){
             fileUtil.generateImage(fileUtil.absolutePath+"book/"+book.getFile(),folder);
         }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("bookViewByPage");
-        modelAndView.addObject("image",book.getFolder()+"/"+page+".png");
-        modelAndView.addObject("bid",bid);
-        modelAndView.addObject("totalPage",book.getPage());
-        modelAndView.addObject("bookName",book.getBookName());
-        modelAndView.addObject("page",page);
-        modelAndView.addObject("hasPrev",page>1);
-        modelAndView.addObject("hasNext",page<book.getPage());
-        return modelAndView;
+        //创建返回参数
+        BookViewVO bookViewVO = new BookViewVO();
+        bookViewVO.setBookName(book.getBookName());
+        bookViewVO.setImgUrl(book.getFolder()+"/"+page+".png");
+        bookViewVO.setTotalPage(book.getPage());
+        return bookViewVO;
     }
 }

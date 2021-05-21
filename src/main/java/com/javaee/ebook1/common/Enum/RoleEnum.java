@@ -1,8 +1,8 @@
 package com.javaee.ebook1.common.Enum;
 
 public enum RoleEnum {
-    NORMAL_READER(0,"user","normal reader"),
-    ADMIN(1,"admin","administrator");
+    NORMAL_READER(0,"USER","normal reader"),
+    ADMIN(1,"ADMIN","administrator");
 
     private int rid;
     private String role;

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.javaee.ebook1.common.util.ExampleUtil;
 import com.javaee.ebook1.mybatis.dao.BooksMapper;
+import com.javaee.ebook1.mybatis.dto.BookListDTO;
 import com.javaee.ebook1.mybatis.entity.Books;
 import com.javaee.ebook1.mybatis.entity.BooksExample;
 import com.javaee.ebook1.mybatis.vo.BookListVO;
@@ -28,20 +29,20 @@ public class BookListServiceImpl implements BookListService {
     @Resource
     private BooksMapper booksMapper;
 
-    @Override
-    public ModelAndView getBookList(){
-        BookListVO bookListVO = new BookListVO("","",1,10);
-        return getBookList(bookListVO);
-    }
+//    @Override
+//    public ModelAndView getBookList(){
+//        BookListDTO bookListDTO = new BookListDTO("","",1,10);
+//        return getBookList(bookListVO);
+//    }
 
     @Override
     @Validated
-    public ModelAndView getBookList(@Valid BookListVO bookListVO) {
+    public BookListVO getBookList(@Valid BookListDTO bookListDTO) {
         //获取参数
-        String name = bookListVO.getName()==null?"":bookListVO.getName();
-        String author = bookListVO.getAuthor()==null?"":bookListVO.getAuthor();
-        int pageNo = bookListVO.getPageNo();
-        int pageSize = bookListVO.getPageSize();
+        String name = bookListDTO.getName()==null?"":bookListDTO.getName();
+        String author = bookListDTO.getAuthor()==null?"":bookListDTO.getAuthor();
+        int pageNo = bookListDTO.getPageNo();
+        int pageSize = bookListDTO.getPageSize();
         //查询
         BooksExample example = new BooksExample();
         example.createCriteria().andBookNameLike(ExampleUtil.likeModify(name)).andAuthorLike(ExampleUtil.likeModify(author));
@@ -51,17 +52,11 @@ public class BookListServiceImpl implements BookListService {
         int totalPage = pageInfo.getPages();
         boolean next = pageInfo.isHasNextPage();
         boolean prev = pageInfo.isHasPreviousPage();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("booksList");
-        modelAndView.addObject("books",result);
-        modelAndView.addObject("name",name);
-        modelAndView.addObject("author",author);
-        modelAndView.addObject("pageNo",pageNo);
-        modelAndView.addObject("pageSize",pageSize);
-        modelAndView.addObject("totalPage",totalPage);
-        modelAndView.addObject("next",next);
-        modelAndView.addObject("prev",prev);
-
-        return modelAndView;
+        //创建返回参数
+        BookListVO bookListVO = new BookListVO();
+        bookListVO.setBooksList(result);
+        bookListVO.setHasNext(next);
+        bookListVO.setHasPrev(prev);
+        return bookListVO;
     }
 }
