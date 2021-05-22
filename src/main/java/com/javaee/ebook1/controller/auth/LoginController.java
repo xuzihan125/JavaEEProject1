@@ -37,7 +37,7 @@ public class LoginController {
 
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @ApiOperation(value="方法描述：原界面接口，现弃用。请求方法：GET，参数：无，返回值：JsonMessage<String>")
+    @ApiOperation(value="方法描述：原界面接口，现弃用。请求方法：GET，参数：无，返回值：JsonMessage<String>,是否可用：是/否")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public JsonMessage<String> Login(){
         return new JsonMessage<>("login");
@@ -77,4 +77,5 @@ public class LoginController {
         logger.info("登出");
         return new JsonMessage<String>("登出");
     }
+
 }

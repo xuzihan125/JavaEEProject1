@@ -1,5 +1,6 @@
 package com.javaee.ebook1.controller;
 
+import com.javaee.ebook1.controller.View.AdminController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.servlet.ModelAndView;

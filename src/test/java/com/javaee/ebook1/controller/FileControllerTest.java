@@ -1,11 +1,10 @@
 package com.javaee.ebook1.controller;
 
+import com.javaee.ebook1.controller.ebook.FileController;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class FileControllerTest {
